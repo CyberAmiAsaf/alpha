@@ -1,0 +1,21 @@
+[bits $real_mode]
+[org $alpha_offset]
+
+  ;; IN: BX=str addr
+  ;; OUT: print str
+_print_real:
+  pusha
+
+_print_real_loop:
+  mov al, [bx]
+  test al, al
+  je _print_real_ret
+
+  int 0x10
+
+  inc bx
+  jmp _print_real_loop
+
+_print_real_ret:
+  popa
+  ret

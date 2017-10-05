@@ -1,0 +1,26 @@
+%include "./definitions.asm"
+
+[bits $real_mode]
+[org $alpha_offset]
+
+_main:
+  ;; set ss, sp
+  mov dx, $bl_ss
+  mov ss, dx
+  jmp $
+  mov sp, $bl_sp
+
+  ;; set ds
+  mov ax, $alpha_offset
+
+  mov bx, _msg
+  call _print_real
+
+%include "./print_real.asm"
+
+_msg:
+  db "hello world buddy :)", 0
+
+  ;; make loader 512 bytes long
+times ($mbr_size-0x02)-($-$$) db 0x00
+dw $mbr_magic
