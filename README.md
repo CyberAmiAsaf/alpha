@@ -1,7 +1,4 @@
-# PROXIMA
+# Alpha
 
-## Alpha
-Simple boot loader, designed to load the centarui image.
-
-## Centauri
-THe operating system itself.
+- boot: Simple boot-loader to load the OS.
+- alpha: the OS itself.
