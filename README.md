@@ -1,4 +1,12 @@
-# Alpha
+<p align="center">
+   !(media/alpha.png)
+</p>
 
-- boot: Simple boot-loader to load the OS.
-- alpha: the OS itself.
+### ./boot
+
+Contains 1st boot sector, boot loader, loads the kernel.
+
+### ./kernel
+
+Contains the kernel itself.
+

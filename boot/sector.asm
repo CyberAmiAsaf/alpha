@@ -117,7 +117,7 @@ _pm_print_ret:
 
 ;; data
 
-%include "./gdt.asm"
+%include "boot/gdt.asm"
 
 REAL_MODE_MSG:
   db "16-bits real-mode initiated.", 0x0a, 0x0d, 0
