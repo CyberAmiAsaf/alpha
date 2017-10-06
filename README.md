@@ -1,5 +1,5 @@
 <p align="center">
-   !(media/alpha.png)
+   ![Alpha's logo](media/alpha.png)
 </p>
 
 ### ./boot
