@@ -1,11 +1,14 @@
-#ifndef __alpha__ports__
-  #define __alpha__ports__
+#ifndef ALPHA_PORTS_H
+#define ALPHA_PORTS_H
 
-  // Byte in/out
-  unsigned char port_byte_in (unsigned short port);
-  void port_byte_out (unsigned short port, unsigned char data);
+#include <stddef.h>
+#include <stdint.h>
 
-  // Word in/out
-  unsigned short port_word_in (unsigned short port);
-  void port_word_out (unsigned short port, unsigned short data);
+// Byte in/out
+uint8_t port_byte_in (uint16_t port);
+void port_byte_out (uint16_t port, uint8_t data);
+
+// Word in/out
+uint16_t port_word_in (uint16_t port);
+void port_word_out (uint16_t port, uint16_t data);
 #endif

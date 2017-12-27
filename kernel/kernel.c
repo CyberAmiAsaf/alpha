@@ -1,14 +1,15 @@
-#include "../drivers/vga/vga.h"
+#include <stddef.h>
+#include <stdint.h>
+
 #include "../lib/util/util.h"
+#include "../drivers/vga/vga.h"
 
 #define DEBUG 1
 
 int start_kernel() {
   clear_screen();
 
-  printf("Successfuly transferred from 16-bit real-mode to 32-bit protected-mode\n");
-  printf("Control was transferred by the BIOS to AlphaOS\n");
-  printf("AlphaOS successfuly initiated\n");
+  printf("hello: ", 25);
 
   return 0;
 }
