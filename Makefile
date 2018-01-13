@@ -9,7 +9,7 @@ GDB = /usr/local/i386elfgcc/bin/i386-elf-gdb
 
 ASM_BOOT_FLAGS = -f bin
 ASM_KERNEL_FLAGS = -f elf
-CC_FLAGS = -ffreestanding -c -g # -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror
+CC_FLAGS = -ffreestanding -c -g -m32 # -nostdinc # -fno-builtin -fno-stack-protector # -nostartfiles -Wall -Wextra -Werror # -nodefaultlibs -nostdlib
 
 $(info $(C_SOURCES))
 

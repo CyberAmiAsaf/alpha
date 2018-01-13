@@ -1,8 +1,7 @@
 #ifndef ALPHA_VGA_H
 #define ALPHA_VGA_H
 
-#include <stddef.h>
-#include <stdint.h>
+#include "../types.h"
 
 #define VGA_MEMORY 0xb8000;
 
@@ -25,27 +24,26 @@ enum vga_color {
   VGA_COLOR_WHITE = 15,
 };
 
-static const size_t VGA_WIDTH = 80;
-static const size_t VGA_HEIGHT = 25;
+#define VGA_WIDTH 80
+#define VGA_HEIGHT 25
 
-/* Cursor location on screen */
-static uint8_t cursor_row = 0;
-static uint8_t cursor_col = 0;
+/* global cursor row/col */
+extern u8 cursor_row;
+extern u8 cursor_col;
 
 /* Get fg and bg color combination vga */
-static inline uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg);
+u8 vga_entry_color(enum vga_color fg, enum vga_color bg);
 
 /* Get color and char combination */
-static inline uint16_t vga_entry(unsigned char uc, uint8_t color);
+u16 vga_entry(unsigned char uc, u8 color);
 
 /* Clear vga screen */
 void clear_screen();
-
-/* Advance cursor by one character */
-static inline void advance_cursor();
 
 /* Print char */
 void print_char_attr_loc(char c, enum vga_color fg, enum vga_color bg, int row, int col);
 void print_char_attr(char c, enum vga_color fg, enum vga_color bg);
 void print_char(char c);
+void advance_cursor();
+
 #endif

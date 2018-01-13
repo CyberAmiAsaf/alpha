@@ -86,7 +86,7 @@ int atoi(register char *str) {
   }
 
   if (is_negative) {
-	  return -result;
+    return -result;
   }
 
   return result;
@@ -111,6 +111,33 @@ void itoa(register int num, register char *buf) {
     buf[length] = (num % 10) + '0';
     num /= 10;
   }
+}
+
+void to_uppercase(char *str) {
+  char c;
+  while (c = *str) {
+    if (c > 'a' && c < 'z') {
+      *str = c - 0x20;
+    }
+
+    str++;
+  }
+}
+
+void to_lowercase(char *str) {
+  char c;
+  while (c = *str) {
+    if (c > 'A' && c < 'Z') {
+      *str = c + 0x20;
+    }
+
+    str++;
+  }
+}
+
+bool strcmp(char *s1, char *s2) {
+  while (*s1 && *s1++ == *s2++);
+  return *s1 == *s2;
 }
 
 /* check if char is whitespace */
