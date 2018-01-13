@@ -1,14 +1,17 @@
-C_SOURCES = $(wildcard kernel/*.c drivers/**/*.c lib/**/*.c)
-C_HEADERS = $(wildcard kernel/*.h drivers/**/*.h lib/**/*.h)
-OBJ = ${C_SOURCES:.c=.o}
+C_SOURCES = $(wildcard kernel/*.c cpu/**/*.c drivers/**/*.c lib/**/*.c)
+C_HEADERS = $(wildcard kernel/*.h cpu/**/*.h drivers/**/*.h lib/**/*.h)
+OBJ = ${C_SOURCES:.c=.o cpu/interrupt.o}
 
 ASM = /usr/bin/nasm
 CC = /usr/local/i386elfgcc/bin/i386-elf-gcc
 LD = /usr/local/i386elfgcc/bin/i386-elf-ld
+GDB = /usr/local/i386elfgcc/bin/i386-elf-gdb
 
 ASM_BOOT_FLAGS = -f bin
 ASM_KERNEL_FLAGS = -f elf
-CC_FLAGS = -ffreestanding -c -g
+CC_FLAGS = -ffreestanding -c -g # -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror
+
+$(info $(C_SOURCES))
 
 all: run
 
@@ -35,7 +38,14 @@ bin/alpha.bin: bin/bootsect.bin bin/kernel.bin
 
 # Run qEmulator
 run: bin/alpha.bin
-	qemu-system-i386 -drive file=$<,format=raw
+	qemu-system-i386 -fda $< #-drive file=$<,format=raw
+
+bin/kernel.elf: kernel/kernel_entry.o ${OBJ}
+	${LD} -o $@ -Ttext 0x1000 $^
+
+debug: bin/alpha.bin bin/kernel.elf
+	qemu-system-i386 -s -fda bin/alpha.bin &
+	${GDB} -ex "target remote localhost:1234" -ex "symbol-file bin/kernel.elf"
 
 clean:
-	rm -rf $(wildcard bin/*.bin kernel/*.o lib/**/*.o drivers/**/*.o)
+	rm -rf $(wildcard bin/* kernel/*.o lib/**/*.o drivers/**/*.o)

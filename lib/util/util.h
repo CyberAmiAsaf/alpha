@@ -4,23 +4,26 @@
 #include <stdarg.h>
 #include "../../drivers/vga/vga.h"
 
-#define MAX_ARGS 256
-#define PLACE_HOLDER_SIZE 128
+// suppress unsused parameter warning
+#define UNUSED(x) (void)(x)
 
-/* define boolean */
+// define boolean
 typedef int bool;
 #define true 1
 #define false 0
 
-/* standard 'printf' function, prints a null-terminated string */
-int printf(const char* format, ...);
-int vprintf(const char *format, va_list argptr);
+// prints am unformatted string
+void puts(const char *str);
 
-/* string - integer conversion */
+// standard 'printf' function, prints a formatted null-terminated string
+int vprintf(const char* format, va_list arg);
+int printf(const char* format, ...);
+
+// string - integer conversion
 void itoa(int num, register char *buf);
 int atoi(register char *str);
 
-/* isspace */
-//inline bool isspace(unsigned char c);
+// isspace
+bool isspace(unsigned char c);
 
 #endif

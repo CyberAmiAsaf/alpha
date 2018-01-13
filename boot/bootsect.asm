@@ -1,14 +1,15 @@
-$mbr_size equ 0x200           ;; =512
-$mbr_magic equ 0xaa55         ;; MBR magic number
-
+  ;; =512
+$mbr_size equ 0x200
+ ;; MBR magic number
+$mbr_magic equ 0xaa55
 $alpha_addr equ 0x7c00
 
-$bl_ss equ 0x0bc0             ;; init stack accordingly
+  ;; init stack accordingly
+$bl_ss equ 0x0bc0
 $bl_sp equ 0x0200
 
-$video_memory equ 0xb8000     ;; start of vga
-$white_on_black equ 0x0f      ;; vga color
-$kernel_offset equ 0x1000     ;; kernel loading addr
+  ;; kernel loading addr
+$kernel_offset equ 0x1000
 
 [org $alpha_addr]
 
@@ -59,7 +60,7 @@ _sectors_error:
 
 _rm_load_kernel:
   mov bx, $kernel_offset
-  mov dh, 2
+  mov dh, 20
   mov dl, [boot_drive]
   call _rm_disk_load
   ret
