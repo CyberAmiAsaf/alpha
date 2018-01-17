@@ -24,6 +24,21 @@ const char sc_ascii[] = {
   'B', 'N', 'M', ',', '.', '/', '?', '?', '?', ' '
 };
 
+static void clear_key_buffer() {
+  for (int i = 0; i < 256; i++) {
+    key_buffer[i] = '\0';
+  }
+}
+
+static void append_key_to_buffer(char letter) {
+  char *key = key_buffer;
+  while (*key) {
+    key++;
+  }
+
+  *key = letter;
+}
+
 static void keyboard_callback(registers_t regs) {
   // PIC leaves scancode in port 0x60
   u8 scancode = port_byte_in(0x60);
@@ -35,21 +50,23 @@ static void keyboard_callback(registers_t regs) {
     // backspace(key_buffer);
     // kprint_backspace();
   } else if (scancode == ENTER) {
-    // kprint("\n");
-    // user_input(key_buffer);
-    // key_buffer[0] = '\0';
+    printf("\n");
+
+    int result = execute_command(key_buffer);
+
+    for (int i = 0; i < 256; i++) {
+      key_buffer[i] =  '\0';
+    }
   } else {
     char letter = sc_ascii[(int)scancode];
+    append_key_to_buffer(letter);
     print_char(letter);
-    /* Remember that kprint only accepts char[] */
-    // char str[2] = {letter, '\0'};
-    // append(key_buffer, letter);
-    // kprint(str);
   }
 
 //  UNUSED(regs);
 }
 
 void init_keyboard() {
-   register_interrupt_handler(IRQ1, keyboard_callback);
+  clear_key_buffer();
+  register_interrupt_handler(IRQ1, keyboard_callback);
 }

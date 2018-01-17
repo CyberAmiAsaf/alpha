@@ -18,6 +18,7 @@ int printf(const char* format, ...);
 // string - integer conversion
 void itoa(int num, register char *buf);
 int atoi(register char *str);
+int strlen(register char *str);
 
 // upper/lower case string
 void to_uppercase(char *str);

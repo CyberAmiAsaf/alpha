@@ -20,7 +20,7 @@ int start_kernel() {
   isr_install();
   irq_install();
 
-  log("ok", "isr is up and running");
+  log(" ok ", "isr is up and running");
   log("info", "alpha os successfully initiated");
 
   while(true);

@@ -66,6 +66,22 @@ int printf(const char *fmt, ...) {
   return length;
 }
 
+int split_string(char *str, char split_by, char **args) {
+  int splitted = 0;
+
+  return splitted;
+}
+
+int strlen(register char *str) {
+  register int size = 0;
+
+  while (*str++ != '\0') {
+    size++;
+  }
+
+  return size;
+}
+
 /* ascii -> integer */
 int atoi(register char *str) {
   register int result = 0;
