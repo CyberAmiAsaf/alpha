@@ -15,18 +15,22 @@ int start_kernel() {
   clear_screen();
 
   log("info", "booting up..");
+
   log("info", "installing isr...");
-  log("info", "installing irq...");
-
   isr_install();
+  log("ok", "isr is up and running"); 
+ 
+  log("info", "installing irq...");
+  log("info", "installing timer irq...");
+  log("info", "installing keyboard irq...");
   irq_install();
+  log("ok", "irqs successfuly installed"); 
 
-  log(" ok ", "isr is up and running");
   log("info", "alpha os successfully initiated");
+  log("fail", "an error occurred while attempting to do nothing");
 
-  // os loop
   while(true) {
-    
+
   }
 
   return 0;

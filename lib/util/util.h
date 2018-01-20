@@ -10,10 +10,15 @@
 
 // prints am unformatted string
 void puts(const char *str);
+void puts_color(const char *str, enum vga_color bg, enum vga_color fg);
 
 // standard 'printf' function, prints a formatted null-terminated string
 int vprintf(const char* format, va_list arg);
 int printf(const char* format, ...);
+
+// set memory value for len bytes
+void *memset(void *ptr, int value, unsigned int len);
+void *cpy(void *dest, void *src, unsigned int len);
 
 // string - integer conversion
 void itoa(int num, register char *buf);

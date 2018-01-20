@@ -62,8 +62,6 @@ static void keyboard_callback(registers_t regs) {
     append_key_to_buffer(letter);
     print_char(letter);
   }
-
-//  UNUSED(regs);
 }
 
 void init_keyboard() {
