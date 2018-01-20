@@ -4,6 +4,7 @@
 
 #include "../drivers/types.h"
 #include "../drivers/vga/vga.h"
+#include "../drivers/timer/timer.h"
 
 #include "../lib/util/util.h"
 #include "../lib/logger/logger.h"
@@ -23,7 +24,10 @@ int start_kernel() {
   log(" ok ", "isr is up and running");
   log("info", "alpha os successfully initiated");
 
-  while(true);
+  // os loop
+  while(true) {
+    
+  }
 
   return 0;
 }

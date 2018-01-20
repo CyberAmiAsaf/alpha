@@ -1,7 +1,10 @@
 #ifndef ALPHA_ISR_H
 #define ALPHA_ISR_H
 
+#include "../idt/idt.h"
+
 #include "../../drivers/types.h"
+#include "../../drivers/timer/timer.h"
 #include "../../drivers/keyboard/keyboard.h"
 
 #include "../../lib/util/util.h"
@@ -73,14 +76,6 @@ extern void irq15();
 #define IRQ13 45
 #define IRQ14 46
 #define IRQ15 47
-
-// Struct which aggregates many registers
-typedef struct {
-   u32 ds; // Data segment selector
-   u32 edi, esi, ebp, esp, ebx, edx, ecx, eax; // Pushed by pusha
-   u32 int_no, err_code; // Interrupt number and error code (if applicable)
-   u32 eip, cs, eflags, useresp, ss; // Pushed by the processor automatically
-} registers_t;
 
 void isr_install();
 void isr_handler(registers_t r);

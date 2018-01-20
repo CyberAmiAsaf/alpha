@@ -68,5 +68,5 @@ static void keyboard_callback(registers_t regs) {
 
 void init_keyboard() {
   clear_key_buffer();
-  register_interrupt_handler(IRQ1, keyboard_callback);
+  register_interrupt_handler(IRQ1, (isr_t)keyboard_callback);
 }
