@@ -123,6 +123,7 @@ void itoa(register int num, register char *buf) {
     ++length;
   }
 
+  buf[length] = '\0';
   while (length--) {
     buf[length] = (num % 10) + '0';
     num /= 10;
