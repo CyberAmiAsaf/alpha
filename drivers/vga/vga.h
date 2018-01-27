@@ -1,7 +1,7 @@
 #ifndef ALPHA_VGA_H
 #define ALPHA_VGA_H
 
-#include "../types.h"
+#include <types.h>
 
 #define VGA_MEMORY 0xb8000;
 

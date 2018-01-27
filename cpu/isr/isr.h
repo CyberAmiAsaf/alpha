@@ -1,13 +1,13 @@
 #ifndef ALPHA_ISR_H
 #define ALPHA_ISR_H
 
-#include "../idt/idt.h"
+#include <types.h>
 
-#include "../../drivers/types.h"
-#include "../../drivers/timer/timer.h"
-#include "../../drivers/keyboard/keyboard.h"
+#include <idt/idt.h>
+#include <timer/timer.h>
+#include <keyboard/keyboard.h>
 
-#include "../../lib/util/util.h"
+#include <util/util.h>
 
 // ISRs reserved for CPU exceptions
 extern void isr0();

@@ -43,7 +43,7 @@ int atoi(register char *str) {
 }
 
 /* integer -> ascii (unsafe) */
-void itoa(register int num, register char *buf) {
+char *itoa(int num, register char *buf) {
   int tmp = num;
   unsigned int length = 0;
 
@@ -62,9 +62,21 @@ void itoa(register int num, register char *buf) {
     buf[length] = (num % 10) + '0';
     num /= 10;
   }
+
+  return buf;
 }
 
-void to_uppercase(char *str) {
+char *pad_string(char *buf, char padc, int n) {
+  register int buflen = strlen(buf);
+  if (n > buflen) {
+    memcpy(buf + (n - buflen), buf, buflen);
+    memset(buf, (int)padc, n - buflen);
+  }
+
+  return buf;
+}
+
+char *to_uppercase(char *str) {
   char c;
   while (c = *str) {
     if (c > 'a' && c < 'z') {
@@ -73,9 +85,11 @@ void to_uppercase(char *str) {
 
     str++;
   }
+
+  return str;
 }
 
-void to_lowercase(char *str) {
+char *to_lowercase(char *str) {
   char c;
   while (c = *str) {
     if (c > 'A' && c < 'Z') {
@@ -84,6 +98,8 @@ void to_lowercase(char *str) {
 
     str++;
   }
+
+  return str;
 }
 
 bool strcmp(char *s1, char *s2) {
@@ -99,4 +115,19 @@ bool isspace(unsigned char c) {
     || c == '\r'
     || c == '\t'
     || c == '\v';
+}
+
+// is alpha numeric
+bool is_alphanumeric(char c) {
+  return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9');
+}
+
+// is alpha
+bool is_alphabetic(char c) {
+  return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+}
+
+// is numeric
+bool is_numeric(char c) {
+  return c >= '0' && c <= '9';
 }

@@ -1,7 +1,7 @@
 #ifndef ALPHA_IDT_H
 #define ALPHA_IDT_H
 
-#include "../../drivers/types.h"
+#include <types.h>
 
 // Segment selectors
 #define KERNEL_CS 0x08
