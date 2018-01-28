@@ -22,6 +22,37 @@ typedef struct {
    u32 eip, cs, eflags, useresp, ss; // Pushed by the processor automatically
 } registers_t; 
 
+// vga colors
+enum vga_color {
+  VGA_COLOR_BLACK = 0,
+  VGA_COLOR_BLUE = 1,
+  VGA_COLOR_GREEN = 2,
+  VGA_COLOR_CYAN = 3,
+  VGA_COLOR_RED = 4,
+  VGA_COLOR_MAGENTA = 5,
+  VGA_COLOR_BROWN = 6,
+  VGA_COLOR_LIGHT_GREY = 7,
+  VGA_COLOR_DARK_GREY = 8,
+  VGA_COLOR_LIGHT_BLUE = 9,
+  VGA_COLOR_LIGHT_GREEN = 10,
+  VGA_COLOR_LIGHT_CYAN = 11,
+  VGA_COLOR_LIGHT_RED = 12,
+  VGA_COLOR_LIGHT_MAGENTA = 13,
+  VGA_COLOR_LIGHT_BROWN = 14,
+  VGA_COLOR_WHITE = 15,
+};
+
+// rtc timer
+struct time_t {
+    /* day start with 0 on startup and gets incremented
+     * after every hour overflow */
+    unsigned int day;
+    unsigned char hour;
+    unsigned char min;
+    unsigned char sec;
+    unsigned int ms;
+};
+
 // access high/low word of double word
 #define low_16(address) (u16)((address) & 0xFFFF)
 #define high_16(address) (u16)(((address) >> 16) & 0xFFFF)

@@ -31,6 +31,8 @@ int start_kernel() {
 
   log("info", "alpha os successfully initiated");
 
+  print_ps1();
+
   while(true) {
   }
 

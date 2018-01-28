@@ -5,6 +5,7 @@
 
 #define PS1 "ALPHA$ "
 
+void print_ps1();
 int execute_command(char *str);
 
 #endif

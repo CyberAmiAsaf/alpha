@@ -51,7 +51,7 @@ bin/kernel.elf: kernel/kernel_entry.o ${OBJ}
 
 debug: bin/alpha.bin bin/kernel.elf
 	qemu-system-i386 -s -fda bin/alpha.bin  &
-	${GDB} -ex "target remote localhost:1234" -ex "symbol-file bin/kernel.elf"
+	${GDB} -tui -ex "target remote localhost:1234" -ex "symbol-file bin/kernel.elf"
 
 clean:
 	rm -rf $(wildcard bin/* kernel/*.o lib/**/*.o drivers/**/*.o)

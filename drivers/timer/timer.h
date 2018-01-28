@@ -17,16 +17,6 @@ struct TimerBuffer {
   int timer_ticks;
 };
 
-struct time_t {
-    /* day start with 0 on startup and gets incremented
-     * after every hour overflow */
-    unsigned int day;
-    unsigned char hour;
-    unsigned char min;
-    unsigned char sec;
-    unsigned int ms;
-};
-
 extern struct time_t hw_time;
 typedef unsigned long milis_t;
 
