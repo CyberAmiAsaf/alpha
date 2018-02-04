@@ -103,6 +103,10 @@ char *to_lowercase(char *str) {
 }
 
 bool strcmp(char *s1, char *s2) {
+  if (strlen(s1) != strlen(s2)) {
+    return false;
+  }
+
   while (*s1 && *s1++ == *s2++);
   return *s1 == *s2;
 }
