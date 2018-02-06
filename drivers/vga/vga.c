@@ -73,7 +73,6 @@ void print_char_attr(char c, enum vga_color fg, enum vga_color bg) {
     print_char_attr_loc(c, fg, bg, cursor_row, cursor_col);
     advance_cursor();
   }
-  update_cursor(cursor_row, cursor_col);
 }
 
 /*
@@ -96,8 +95,6 @@ void advance_cursor() {
       cursor_col = 0;
     }
   }
-
-  update_cursor(cursor_row, cursor_col);
 }
 
 /*
@@ -129,5 +126,4 @@ void update_cursor(u8 row, u8 col) {
   port_byte_out(0x3d5, (u8) (pos & 0xff));
   port_byte_out(0x3d4, 0x0e);
   port_byte_out(0x3d5, (u8) ((pos >> 8) & 0xff));
-
 }

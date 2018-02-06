@@ -61,6 +61,7 @@ static void keyboard_callback(registers_t regs) {
     char letter = sc_ascii[(int)scancode];
     append_key_to_buffer(letter);
     print_char(letter);
+    update_cursor(cursor_row, cursor_col);
   }
 }
 
