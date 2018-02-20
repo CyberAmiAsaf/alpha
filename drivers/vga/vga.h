@@ -27,9 +27,10 @@ void clear_screen();
 void print_char_attr_loc(char c, enum vga_color fg, enum vga_color bg, int row, int col);
 void print_char_attr(char c, enum vga_color fg, enum vga_color bg);
 void print_char(char c);
-void advance_cursor();
 
 /* cursor enable/disable/update */
+void advance_cursor();
+void backwards_cursor();
 void disable_cursor();
 void enable_cursor(u8 start, u8 end);
 void update_cursor(u8 row, u8 col);

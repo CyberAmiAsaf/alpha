@@ -10,5 +10,6 @@
 
 // initialize the keyboard callback
 void init_keyboard();
+bool should_use_uppercase();
 
 #endif

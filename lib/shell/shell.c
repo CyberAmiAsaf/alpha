@@ -36,7 +36,14 @@ int execute_command(char *command_line) {
     arg_ch = 0;
   }
 
-  printf("'%s' is not a recognized command (%d args inputted)\n", arguments[0], arg);
+  if (strlen(arguments[0]) == 0) {
+  } else if (strcmp(arguments[0], "clear")) {
+    clear_screen();
+  } else {
+    printf("'%s' is not a recognized command (%d args inputted)\n", arguments[0], arg);
+  }
+
+
 
   printf(PS1);
   enable_cursor(0, 255);

@@ -98,6 +98,24 @@ void advance_cursor() {
 }
 
 /*
+ * Back cursor one char backwards
+ */
+void backwards_cursor() {
+  if (cursor_col == 0) {
+    if (cursor_row == 0) {
+      return;
+    }
+
+    --cursor_row;
+    cursor_col = VGA_WIDTH - 1;
+  } else {
+    --cursor_col;
+  }
+
+  print_char_attr_loc(' ', VGA_COLOR_WHITE, VGA_COLOR_BLACK, cursor_row, cursor_col);
+}
+
+/*
  * disable cursor
  */
 void disable_cursor() {
