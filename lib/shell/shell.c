@@ -47,6 +47,8 @@ int execute_command(char *command_line) {
   }
 
   if (strlen(arguments[0]) == 0) {
+  } else if (strcmp(arguments[0], "reboot")) {
+    reboot();
   } else if (strcmp(arguments[0], "clear")) {
     clear_screen();
   } else {
