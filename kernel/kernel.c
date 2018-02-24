@@ -17,7 +17,7 @@ int start_kernel() {
 
   log("info", "installing isr...");
   isr_install();
-  log("ok", "isr is up and running"); 
+  log("ok", "isr is up and running");
 
   log("info", "installing irq...");
   log("info", "installing timer irq...");

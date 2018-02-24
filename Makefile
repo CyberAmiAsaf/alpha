@@ -13,8 +13,6 @@ ASM_BOOT_FLAGS = -f bin
 ASM_KERNEL_FLAGS = -f elf
 CC_FLAGS = $(INCLUDE_PATHS) -ffreestanding -c -g -m32 # -nostdinc # -fno-builtin -fno-stack-protector # -nostartfiles -Wall -Wextra -Werror # -nodefaultlibs -nostdlib
 
-$(info $(C_SOURCES))
-
 all: run
 
 # Build kernel

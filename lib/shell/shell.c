@@ -6,6 +6,16 @@ void print_ps1() {
   update_cursor(cursor_row, cursor_col);
 }
 
+void reboot() {
+  u8 good = 0x02;
+  while (good & 0x02) {
+    good = port_byte_in(0x64);
+  }
+
+  port_byte_out(0x64, 0xfe);
+  __asm__("hlt");
+}
+
 int execute_command(char *command_line) {
   char arguments[16][32];
   int arg = 0;
@@ -42,8 +52,6 @@ int execute_command(char *command_line) {
   } else {
     printf("'%s' is not a recognized command (%d args inputted)\n", arguments[0], arg);
   }
-
-
 
   printf(PS1);
   enable_cursor(0, 255);
