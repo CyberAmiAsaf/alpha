@@ -1,4 +1,4 @@
-#include "vga.h"
+#include "../vga.h"
 
 /* Cursor location on screen */
 u8 cursor_row = 1;

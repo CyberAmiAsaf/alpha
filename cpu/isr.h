@@ -3,11 +3,11 @@
 
 #include <types.h>
 
-#include <idt/idt.h>
-#include <timer/timer.h>
-#include <keyboard/keyboard.h>
+#include <idt.h>
+#include <timer.h>
+#include <keyboard.h>
 
-#include <util/util.h>
+#include <util.h>
 
 // ISRs reserved for CPU exceptions
 extern void isr0();

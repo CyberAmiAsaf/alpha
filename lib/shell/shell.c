@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "../shell.h"
 
 void print_ps1() {
   printf(PS1);

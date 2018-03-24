@@ -1,4 +1,4 @@
-#include "util.h"
+#include "../util.h"
 
 int split_string(char *str, char split_by, char **args) {
   int splitted = 0;

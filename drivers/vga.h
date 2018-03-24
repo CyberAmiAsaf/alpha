@@ -2,8 +2,8 @@
 #define ALPHA_VGA_H
 
 #include <types.h>
-#include <ports/ports.h>
-#include <util/util.h>
+#include <ports.h>
+#include <util.h>
 
 #define VGA_MEMORY 0xb8000
 

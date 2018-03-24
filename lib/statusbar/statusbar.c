@@ -1,4 +1,4 @@
-#include "statusbar.h"
+#include "../statusbar.h"
 
 static char *current_program;
 static char *os_name;

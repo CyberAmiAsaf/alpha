@@ -1,4 +1,4 @@
-#include "timer.h"
+#include "../timer.h"
 
 struct time_t hw_time;
 

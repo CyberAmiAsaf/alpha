@@ -3,11 +3,11 @@
 
 #include <types.h>
 
-#include <rtc/rtc.h>
-#include <ports/ports.h>
-#include <isr/isr.h>
-#include <util/util.h>
-#include <statusbar/statusbar.h>
+#include <rtc.h>
+#include <ports.h>
+#include <isr.h>
+#include <util.h>
+#include <statusbar.h>
 
 #define INPUT_TIMER_HZ 1193180
 #define timer_base (0x100000)

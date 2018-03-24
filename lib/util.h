@@ -3,7 +3,7 @@
 
 #include <stdarg.h>
 #include <types.h>
-#include <vga/vga.h>
+#include <vga.h>
 
 // suppress unsused parameter warning
 #define UNUSED(x) (void)(x)

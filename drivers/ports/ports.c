@@ -1,4 +1,4 @@
-#include "ports.h"
+#include "../ports.h"
 
 u8 port_byte_in (u16 port) {
   unsigned char result;

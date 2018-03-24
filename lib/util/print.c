@@ -1,4 +1,4 @@
-#include "util.h"
+#include "../util.h"
 
 void puts(const char *str) {
   while(*str) {

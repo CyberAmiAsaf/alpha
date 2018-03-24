@@ -1,4 +1,4 @@
-#include "util.h"
+#include "../util.h"
 
 void *memset(void *ptr, int value, unsigned int len) {
   while (len--) {

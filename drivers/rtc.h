@@ -3,9 +3,9 @@
 
 #include <types.h>
 
-#include <ports/ports.h>
-#include <isr/isr.h>
-#include <util/util.h>
+#include <ports.h>
+#include <isr.h>
+#include <util.h>
 
 #define CMOS_INDEX_PORT 0x70
 #define CMOS_DATA_PORT 0x71

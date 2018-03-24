@@ -1,4 +1,4 @@
-#include "rtc.h"
+#include "../rtc.h"
 
 /*
  * CMOS OUT port

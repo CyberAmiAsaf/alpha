@@ -1,4 +1,4 @@
-#include "logger.h"
+#include "../logger.h"
 
 int log(char *type, char *str) {
   to_uppercase(type);

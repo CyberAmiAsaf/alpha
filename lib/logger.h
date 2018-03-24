@@ -2,7 +2,7 @@
 #define ALPHA_LOGGER_H
 
 #include <types.h>
-#include <util/util.h>
+#include <util.h>
 
 int log(char *type, char *str);
 
