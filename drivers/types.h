@@ -1,6 +1,6 @@
 #ifndef ALPHA_TYPES_H
 #define ALPHA_TYPES_H
- 
+
 // define boolean
 typedef int bool;
 #define true 1
@@ -20,7 +20,7 @@ typedef struct {
    u32 edi, esi, ebp, esp, ebx, edx, ecx, eax; // Pushed by pusha
    u32 int_no, err_code; // Interrupt number and error code (if applicable)
    u32 eip, cs, eflags, useresp, ss; // Pushed by the processor automatically
-} registers_t; 
+} registers_t;
 
 // vga colors
 enum vga_color {

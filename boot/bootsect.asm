@@ -60,7 +60,7 @@ _sectors_error:
 
 _rm_load_kernel:
   mov bx, $kernel_offset
-  mov dh, 20
+  mov dh, 40
   mov dl, [boot_drive]
   call _rm_disk_load
   ret

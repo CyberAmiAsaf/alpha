@@ -20,6 +20,14 @@ void port_word_out (u16 port, u16 data) {
   __asm__("out %%ax, %%dx" : : "a" (data), "d" (port));
 }
 
+void port_sl_in(u16 port, void* buf, unsigned int nr) {
+	__asm__ ("cld;rep;insl\n\t" :: "d"(port), "D"(buf), "c"(nr));
+}
+
+void port_sl_out(u16 port, void* buf, unsigned int nr) {
+	__asm__ ("cld;rep;outsl\n\t" :: "d"(port), "S" (buf), "c" (nr));
+}
+
 void disable_ints () {
   __asm__("cli");
 }

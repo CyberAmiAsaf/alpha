@@ -2,6 +2,8 @@
 
 #define SC_MAX 57
 
+bool can_type = false;
+
 enum KEYCODE {
   BACKSPACE_PRESSED = 0x0e,
   ENTER_PRESSED = 0x1c,
@@ -115,7 +117,7 @@ static void keyboard_callback(registers_t regs) {
     case RSHIFT_RELEASED:
       kbd_pressed.rshift = false;
       break;
-    
+
     // space bar
     case SPACEBAR_PRESSED:
       print_char(' ');
@@ -127,12 +129,12 @@ static void keyboard_callback(registers_t regs) {
     case SPACEBAR_RELEASED:
       kbd_pressed.spacebar = false;
       break;
-    
+
     // caps lock
     case CAPSLOCK_PRESSED:
       kbd_pressed.capslock = !kbd_pressed.capslock;
       break;
-    
+
     // ctrl
     case CTRL_PRESSED:
       kbd_pressed.ctrl = true;
@@ -163,7 +165,7 @@ static void keyboard_callback(registers_t regs) {
       break;
 
     default:
-      if (scancode < SC_MAX) {
+      if (can_type && scancode < SC_MAX) {
         letter = should_use_uppercase() ? sc_uppercase[(int)scancode] : sc_lowercase[(int)scancode];
         append_key_to_cache(letter);
         print_char(letter);

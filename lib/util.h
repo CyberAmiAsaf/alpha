@@ -44,4 +44,7 @@ bool is_alphanumeric(char c);
 bool is_alphabetic(char c);
 bool is_numeric(char c);
 
+// integers
+int get_num_digits(int i);
+
 #endif

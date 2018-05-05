@@ -47,6 +47,12 @@ char *itoa(int num, register char *buf) {
   int tmp = num;
   unsigned int length = 0;
 
+  if (num == 0) {
+    buf[0] = '0';
+    buf[1] = '\0';
+    return buf;
+  }
+
   if (num < 0) {
     *(buf++) = '-';
     num *= -1;

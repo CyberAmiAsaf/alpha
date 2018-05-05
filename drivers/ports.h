@@ -11,6 +11,10 @@ void port_byte_out (u16 port, u8 data);
 u16 port_word_in (u16 port);
 void port_word_out (u16 port, u16 data);
 
+// sl
+void port_sl_in(u16 port, void* buf, unsigned int nr);
+void port_sl_out(u16 port, void* buf, unsigned int nr);
+
 // Disable interrupts
 void disable_ints();
 

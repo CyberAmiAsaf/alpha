@@ -36,10 +36,6 @@ bin/bootsect.bin: boot/bootsect.asm
 bin/alpha.bin: bin/bootsect.bin bin/kernel.bin
 	cat $^ > bin/alpha.bin
 
-# hard disk image
-bin/hard_disk.img:
-	qemu-img create -f raw -o size=512M bin/hard_disk.img
-
 # Run qEmulator
 run: bin/alpha.bin bin/hard_disk.img
 	qemu-system-i386 -fda $< -boot a -m 2G -drive file=bin/hard_disk.img,index=1,media=disk,format=raw
@@ -48,8 +44,12 @@ bin/kernel.elf: kernel/kernel_entry.o ${OBJ}
 	${LD} -o $@ -Ttext 0x1000 $^
 
 debug: bin/alpha.bin bin/kernel.elf
-	qemu-system-i386 -s -fda bin/alpha.bin  &
+	qemu-system-i386 -s -S -fda bin/alpha.bin  &
 	${GDB} -tui -ex "target remote localhost:1234" -ex "symbol-file bin/kernel.elf"
 
+# hard disk image
+setup:
+	qemu-img create -f raw -o size=4G bin/hard_disk.img
+
 clean:
-	rm -rf $(wildcard bin/* kernel/*.o lib/**/*.o drivers/**/*.o)
+	rm -rf $(wildcard kernel/*.o lib/**/*.o drivers/**/*.o)

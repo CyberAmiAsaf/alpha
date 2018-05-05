@@ -13,12 +13,12 @@ isr_common_stub:
   mov es, ax
   mov fs, ax
   mov gs, ax
-  
+
     ; 2. Call C handler
   call isr_handler
-  
+
     ; 3. Restore state
-  pop eax 
+  pop eax
   mov ds, ax
   mov es, ax
   mov fs, ax
@@ -31,7 +31,7 @@ isr_common_stub:
 ; Common IRQ code. Identical to ISR code except for the 'call' 
 ; and the 'pop ebx'
 irq_common_stub:
-    pusha 
+    pusha
     mov ax, ds
     push eax
     mov ax, 0x10
@@ -423,3 +423,19 @@ irq15:
   push byte 47
   jmp irq_common_stub
 
+
+  ;; FS/HD
+	;;; Allocate space for HD0 descriptors
+global hd0
+hd0:
+	  dd 0x0000 ;Partition 0 starting sector number
+	  dd 0x0000 ;Partition 0 capacity
+
+	  dd 0x0000 ;Partition 1 starting sector number
+	  dd 0x0000 ;Partition 1 capacity
+
+	  dd 0x0000 ;Partition 2 starting sector number
+	  dd 0x0000 ;Partition 2 capacity
+
+	  dd 0x0000 ;Partition 3 starting sector number
+	  dd 0x0000 ;Partition 3 capacity
