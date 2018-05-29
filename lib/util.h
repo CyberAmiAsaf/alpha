@@ -13,6 +13,8 @@
 #define pages_size (1<<30)
 #define len_curve 16
 
+unsigned long heap_pointer;
+
 // prints am unformatted string
 void puts(const char *str);
 void puts_color(const char *str, enum vga_color bg, enum vga_color fg);

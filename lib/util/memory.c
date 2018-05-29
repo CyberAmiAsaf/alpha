@@ -1,5 +1,7 @@
 #include "../util.h"
 
+unsigned long heap_pointer = 0;
+
 void *memset(void *ptr, int value, unsigned int len) {
   while (len--) {
     ((u8 *)ptr)[len] = value;
@@ -28,6 +30,7 @@ void write_block(Block b, unsigned int addr) {
 }
 
 void init_pages(unsigned int size) {
+  return;
 	float curve[len_curve] = {
 		0.0019, // 2^5 = 32
 		0.0056, // 2^6 = 64
@@ -88,6 +91,12 @@ void init_pages(unsigned int size) {
 }
 
 char* malloc(unsigned int n_bytes) {
+  printf("p-> %d\n", heap_pointer);
+  char *latest = (char *) BASE_HEAP + heap_pointer;
+  heap_pointer += n_bytes + 1;
+
+  return latest;
+
 	Block* blocks = (Block *) BASE_HEAP;
 	char block = find_category(n_bytes);
 
@@ -112,6 +121,7 @@ char* malloc(unsigned int n_bytes) {
 }
 
 void free(unsigned int addr) {
+  return;
 	Block* blocks = (Block *) BASE_HEAP;
 	for(unsigned int i = 0; i < len_curve; i++) {
 		Block* tested_block = &blocks[i];
