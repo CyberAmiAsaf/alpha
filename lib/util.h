@@ -8,6 +8,11 @@
 // suppress unsused parameter warning
 #define UNUSED(x) (void)(x)
 
+// memory
+#define BASE_HEAP (0x2000)
+#define pages_size (1<<30)
+#define len_curve 16
+
 // prints am unformatted string
 void puts(const char *str);
 void puts_color(const char *str, enum vga_color bg, enum vga_color fg);
@@ -18,8 +23,25 @@ int printf(const char* format, ...);
 int printf_color(enum vga_color fg, enum vga_color bg, const char* format, ...);
 
 // set memory value for len bytes
+typedef struct {
+	char used;
+	unsigned int data_size;
+	unsigned int addr;
+} __attribute__((packed)) Header;
+
+typedef struct {
+	Header* headers;
+	int len;
+}__attribute__((packed)) Block;
+
 void *memset(void *ptr, int value, unsigned int len);
 void *memcpy(void *dest, void *src, unsigned int len);
+
+void init_pages(unsigned int size);
+char* malloc(unsigned int n_bytes);
+void free(unsigned int ptr);
+char find_category(int n);
+
 
 // string - integer conversion
 char *itoa(int num, register char *buf);
@@ -34,7 +56,8 @@ char *to_lowercase(char *str);
 char *pad_string(char *str, char padc, int n);
 
 // strings
-bool strcmp(char *s1, char *s2);
+int strcmp(char *s1, char *s2);
+void *strcpy(const char *src, char *dest);
 
 // isspace
 bool isspace(unsigned char c);

@@ -108,13 +108,18 @@ char *to_lowercase(char *str) {
   return str;
 }
 
-bool strcmp(char *s1, char *s2) {
-  if (strlen(s1) != strlen(s2)) {
-    return false;
+int strcmp(char *s1, char *s2) {
+  while (*s1 && *s1++ == *s2++);
+  return *s2 - *s1;
+}
+
+void *strcpy(const char *src, char *dest) {
+  int i = 0;
+  while (*src) {
+    dest[i++] = *src++;
   }
 
-  while (*s1 && *s1++ == *s2++);
-  return *s1 == *s2;
+  return dest;
 }
 
 /* check if char is whitespace */

@@ -6,6 +6,8 @@ void print_ps1() {
   update_cursor(cursor_row, cursor_col);
 }
 
+/* handles */
+
 void reboot() {
   u8 good = 0x02;
   while (good & 0x02) {
@@ -16,9 +18,37 @@ void reboot() {
   __asm__("hlt");
 }
 
+void handle_echo(int argc, char argv[32][64]) {
+  for (int i = 1; i < argc && strlen(argv[i]) > 0; i++) {
+    printf("%s ", argv[i]);
+  }
+
+  printf("\n");
+}
+
+void handle_touch(int argc, char argv[32][64]) {
+  char *path;
+
+  if (argc != 2 || strlen(argv[1]) > 11 || strcmp(argv[1], "--help") == 0) {
+    printf("usage:\n\ttouch <file_name>\n\t\tlen(file_name) <= 10\n");
+    return;
+  }
+
+  path = argv[1];
+
+  struct INODE_NUM file = findFile(path);
+
+  if (file.inode_num == -1) {
+    touch(path);
+    printf("file \"%s\" has been created succesfully\n", path);
+  } else {
+    printf("path \"%s\" already exists :(\n", path);
+  }
+}
+
 int execute_command(char *command_line) {
-  char arguments[16][32];
-  int arg = 0;
+  char argv[32][64];
+  int argc = 0;
   int arg_ch = 0;
 
   disable_cursor();
@@ -27,7 +57,7 @@ int execute_command(char *command_line) {
   char *str_ptr = command_line;
 
   // null args
-  memset(arguments, 0, 16 * 32);
+  memset(argv, 0, 32 * 64);
 
   // parse loop
   while (*str_ptr) {
@@ -36,23 +66,27 @@ int execute_command(char *command_line) {
     }
 
     while (*str_ptr && !isspace(*str_ptr)) {
-      arguments[arg][arg_ch] = *str_ptr;
+      argv[argc][arg_ch] = *str_ptr;
 
       ++str_ptr;
       ++arg_ch;
     }
 
-    ++arg;
+    ++argc;
     arg_ch = 0;
   }
 
-  if (strlen(arguments[0]) == 0) {
-  } else if (strcmp(arguments[0], "reboot")) {
+  if (strlen(argv[0]) == 0) {
+  } else if (strcmp(argv[0], "reboot") == 0) {
     reboot();
-  } else if (strcmp(arguments[0], "clear")) {
+  } else if (strcmp(argv[0], "echo") == 0) {
+    handle_echo(argc, argv);
+  } else if (strcmp(argv[0], "touch") == 0) {
+    handle_touch(argc, argv);
+  } else if (strcmp(argv[0], "clear") == 0) {
     clear_screen();
   } else {
-    printf("'%s' is not a recognized command (%d args inputted)\n", arguments[0], arg);
+    printf("'%s' is not a recognized command (%d args inputted)\n", argv[0], argc);
   }
 
   printf(PS1);

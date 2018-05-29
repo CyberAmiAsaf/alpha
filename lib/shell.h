@@ -1,6 +1,7 @@
 #ifndef ALPHA_SHELL_H
 #define ALPHA_SHELL_H
 
+#include <fs.h>
 #include <util.h>
 
 #define PS1 "ALPHA$ "

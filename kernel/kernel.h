@@ -8,6 +8,7 @@
 #include <rtc.h>
 #include <timer.h>
 #include <hd.h>
+#include <fs.h>
 
 #include <util.h>
 #include <logger.h>

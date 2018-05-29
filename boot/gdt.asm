@@ -5,7 +5,7 @@ _gdt_start: ; don't remove the labels, they're needed to compute sizes and jumps
 
 ; GDT for code segment. base = 0x00000000, length = 0xfffff
 ; for flags, refer to os-dev.pdf document, page 36
-_gdt_code: 
+_gdt_code:
     dw 0xffff    ; segment length, bits 0-15
     dw 0x0       ; segment base, bits 0-15
     db 0x0       ; segment base, bits 16-23

@@ -3,6 +3,7 @@
 #define DEBUG 1
 
 int start_kernel() {
+  init_pages(pages_size);
   clear_screen();
   log("info", "booting up..");
 
@@ -39,6 +40,17 @@ int start_kernel() {
     setup_dpt();
     log("ok", "hd table was created successfully");
   }
+
+  print_hd_table();
+
+  verify_fs();
+
+  printf("what");
+
+  verify_dir();
+
+  struct INODE_NUM root = findFile("/");
+	stat(&root.inode);
 
   can_type = true;
   log("info", "alpha os successfully initiated");

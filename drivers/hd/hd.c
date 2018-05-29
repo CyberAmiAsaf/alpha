@@ -15,7 +15,7 @@ CHS LBA2CHS(unsigned int lba) {
 }
 
 
-void HD_RW(unsigned int lba, unsigned int command, unsigned int sects_to_access, void* buf) {
+void hd_rw(unsigned int lba, unsigned int command, unsigned int sects_to_access, void* buf) {
   CHS chs = LBA2CHS(lba);
 
   // Structure of the `Status Register Output`
@@ -64,7 +64,7 @@ void HD_RW(unsigned int lba, unsigned int command, unsigned int sects_to_access,
 
 void setup_dpt(void) {
   unsigned char sect[512];
-  HD_RW(0, HD_READ, 1, sect);
+  hd_rw(0, HD_READ, 1, sect);
   sect[0x1be] = 0x80;
   sect[0x1be + 0x04] = FST_FS;
   *(unsigned long *)&sect[0x1be + 0x08] = 1;
@@ -80,7 +80,7 @@ void setup_dpt(void) {
   // magic mbr 0xaa55
   sect[0x1fe] = 0x55;
   sect[0x1ff] = 0xaa;
-  HD_RW(0, HD_WRITE, 1, sect);
+  hd_rw(0, HD_WRITE, 1, sect);
 }
 
 
@@ -91,7 +91,7 @@ bool verify_dpt(void) {
   unsigned i = 0;
   unsigned int *q = (unsigned int *)(hd0);
 
-  HD_RW(0, HD_READ, 1, sect);
+  hd_rw(0, HD_READ, 1, sect);
 
   return (bool)((sect[0x1fe] == 0x55) && (sect[0x1ff] == 0xaa) && (sect[0x1be + 0x04] == FST_FS) && (sect[0x1ce + 0x04] == FST_SW));
 }
@@ -103,7 +103,8 @@ void print_hd_table () {
   unsigned i = 0;
   unsigned int *q = (unsigned int *)(hd0);
 
-  HD_RW(0, HD_READ, 1, sect);
+  hd_rw(0, HD_READ, 1, sect);
+
   if (verify_dpt()) {
     unsigned char* p = &sect[0x1be];
     char* s;
