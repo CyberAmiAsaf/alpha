@@ -59,6 +59,7 @@ char *pad_string(char *str, char padc, int n);
 
 // strings
 int strcmp(char *s1, char *s2);
+int strncmp(char *s1, char *s2, unsigned int n);
 void *strcpy(const char *src, char *dest);
 
 // isspace

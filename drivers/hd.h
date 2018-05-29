@@ -36,9 +36,11 @@ typedef struct HD_PARAM {
 } CHS;
 
 CHS LBA2CHS(unsigned int LBA); //Linear Block Addressing to Cylinders Headers and Sectors
-void hd_rw(unsigned int LBA, unsigned int command, unsigned int sects_to_access, void* buf);
-void setup_dpt(void);
-void print_hd_table(void);
-bool verify_dpt(void);
 
+void hd_read(unsigned int LBA, unsigned int sects_to_access, void* buf);
+void hd_write(unsigned int LBA, unsigned int sects_to_access, void* buf);
+void hd_rw(unsigned int LBA, unsigned int command, unsigned int sects_to_access, void* buf);
+
+void init_alpha_hd(void);
+bool verify_alpha_hd(void);
 #endif

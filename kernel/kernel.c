@@ -31,26 +31,25 @@ int start_kernel() {
 
   log("info", "verifiying hd partition table...");
 
-  bool hd_res = verify_dpt();
+  bool hd_res = verify_alpha_hd();
   if (hd_res == true) {
-    log("ok", "hd table was found");
+    log("ok", "hd integrity is well");
   } else {
-    log("warn", "hd table could not be found");
-    log("info", "creating partition table...");
-    setup_dpt();
-    log("ok", "hd table was created successfully");
+    log("warn", "hd integrity could not be found");
+    log("info", "applying setup on hd...");
+    init_alpha_hd();
+    log("ok", "hd integrity is well now");
   }
 
-  print_hd_table();
-
-  verify_fs();
-
-  printf("what");
-
-  verify_dir();
-
-  struct INODE_NUM root = findFile("/");
-	stat(&root.inode);
+  bool fs_res = verify_alpha_fs();
+  if (fs_res == true) {
+    log("ok", "fs integrity is well");
+  } else {
+    log("warn", "fs is curropted");
+    log("info", "re-creating root dir");
+    init_alpha_fs();
+    log("ok", "fs integrity is well now");
+  }
 
   can_type = true;
   log("info", "alpha os successfully initiated");

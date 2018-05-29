@@ -36,9 +36,9 @@ void handle_touch(int argc, char argv[32][64]) {
 
   path = argv[1];
 
-  struct INODE_NUM file = findFile(path);
+  // struct INODE_NUM file = findFile(path);
 
-  if (file.inode_num == -1) {
+  if (true) {
     touch(path);
     printf("file \"%s\" has been created succesfully\n", path);
   } else {

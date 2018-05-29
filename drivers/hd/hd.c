@@ -14,6 +14,13 @@ CHS LBA2CHS(unsigned int lba) {
   return chs;
 }
 
+void hd_read(unsigned int lba, unsigned int sects_len, void *buf) {
+  hd_rw(lba, HD_READ, sects_len, buf);
+}
+
+void hd_write(unsigned int lba, unsigned int sects_len, void *buf) {
+  hd_rw(lba, HD_WRITE, sects_len, buf);
+}
 
 void hd_rw(unsigned int lba, unsigned int command, unsigned int sects_to_access, void* buf) {
   CHS chs = LBA2CHS(lba);
@@ -61,100 +68,16 @@ void hd_rw(unsigned int lba, unsigned int command, unsigned int sects_to_access,
   }
 }
 
+void init_alpha_hd(void) {
+  char first_sect[512] = "alpha_os";
 
-void setup_dpt(void) {
-  unsigned char sect[512];
-  hd_rw(0, HD_READ, 1, sect);
-  sect[0x1be] = 0x80;
-  sect[0x1be + 0x04] = FST_FS;
-  *(unsigned long *)&sect[0x1be + 0x08] = 1;
-
-  // 2GB  = ((512 bytes per sector)*2 = 1024)*1024*1024*2
-  *(unsigned long *)&sect[0x1be + 0x0c] = 1024*2*1024*2;
-  sect[0x1ce + 0x04] = FST_SW;
-  *(unsigned long *)&sect[0x1ce + 0x08] = 1024*2*1024*2+1;
-
-  // 1GB ((512 bytes per sector)*2 = 1024)*1024*1024 */
-  *(unsigned long *)&sect[0x1ce + 0x0c] = 1024*1024*2;
-
-  // magic mbr 0xaa55
-  sect[0x1fe] = 0x55;
-  sect[0x1ff] = 0xaa;
-  hd_rw(0, HD_WRITE, 1, sect);
+  hd_write(0, 1, first_sect);
 }
 
+bool verify_alpha_hd(void) {
+  char first_sect[512];
 
-bool verify_dpt(void) {
-  extern unsigned int* hd0;
+  hd_read(0, 1, first_sect);
 
-  unsigned char sect[512];
-  unsigned i = 0;
-  unsigned int *q = (unsigned int *)(hd0);
-
-  hd_rw(0, HD_READ, 1, sect);
-
-  return (bool)((sect[0x1fe] == 0x55) && (sect[0x1ff] == 0xaa) && (sect[0x1be + 0x04] == FST_FS) && (sect[0x1ce + 0x04] == FST_SW));
-}
-
-void print_hd_table () {
-  extern unsigned int* hd0;
-
-  unsigned char sect[512];
-  unsigned i = 0;
-  unsigned int *q = (unsigned int *)(hd0);
-
-  hd_rw(0, HD_READ, 1, sect);
-
-  if (verify_dpt()) {
-    unsigned char* p = &sect[0x1be];
-    char* s;
-    printf("   | Bootable | Type      | Start Sector | Capacity \n");
-    for(i = 0; i < 4; i++) {
-      char tmp[2];
-      itoa(i, tmp);
-      printf(tmp);
-
-      if (p[0x04] == 0x00) {
-        printf("  | Empty\n");
-        p += 16;
-        q += 2;
-        continue;
-      }
-
-      if (p[0x00] == 0x80)
-        s = "  | Yes      ";
-      else
-        s = "  | No       ";
-
-      printf(s);
-
-      /* system indicator at offset 0x04 */
-      if (p[0x04] == FST_FS) {
-        printf("| ALPHA FS ");
-      } else if (p[0x04] == FST_SW) {
-        printf("| ALPHA SW ");
-      } else {
-        printf("| Unknown   ");
-      }
-
-
-      /* starting sector number */
-      *q++ = *(unsigned long *) &p[0x08];
-      printf(" | ");
-      char starting_sector_number[get_num_digits(*(unsigned long *)&p[0x08]) + 1];
-      itoa(*(unsigned long *) &p[0x08], starting_sector_number);
-      printf(starting_sector_number);
-
-      /* capacity */
-      *q++ = *(unsigned long *) &p[0x0c];
-      printf("            | ");
-      char capacity[get_num_digits(*(unsigned long *)&p[0x0c]) + 1];
-      itoa((*(unsigned long *) &p[0x0c]*512) >> 20, capacity);
-      printf(capacity);
-      printf("MB");
-      printf("\n");
-
-      p += 16;
-    }
-  }
+  return strncmp(first_sect, "alpha_os", 8) == 0;
 }

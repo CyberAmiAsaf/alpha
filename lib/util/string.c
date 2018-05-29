@@ -113,6 +113,16 @@ int strcmp(char *s1, char *s2) {
   return *s2 - *s1;
 }
 
+int strncmp(char *s1, char *s2, unsigned int n) {
+  for (int i = 0; i < n && *s1 && *s2; i++, s1++, s2++) {
+    if (*s1 != *s2) {
+      break;
+    }
+  }
+
+  return *s1 - *s2;
+}
+
 void *strcpy(const char *src, char *dest) {
   int i = 0;
   while (*src) {

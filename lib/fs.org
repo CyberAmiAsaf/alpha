@@ -1,0 +1,13 @@
+* Alpha FS
+
+| SECTOR N. | Meaning                                                           |
+|-----------+-------------------------------------------------------------------|
+|         0 | MBR, used to check integrity of hard drive                        |
+|       1-8 | INODEs, used to store all the files and directories in the system |
+|     5-inf | Data blocks, each block (512 bytes) is used to store data         |
+
+** INODE format
+*** Limits
+**** 20 blocks (20*512=10KiB)
+*** mode (file/dir)
+*** size (bytes)
