@@ -22,6 +22,7 @@ bin/kernel.bin: kernel/kernel_entry.o ${OBJ}
 kernel/kernel_entry.o: kernel/kernel_entry.asm
 	${ASM} -f elf $< -o $@
 
+# asm to obj files
 %.o: %.asm
 	${ASM} -f elf $< -o $@
 
