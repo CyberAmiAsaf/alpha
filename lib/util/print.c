@@ -78,6 +78,8 @@ int vprintf(const char *fmt, enum vga_color fg, enum vga_color bg, va_list arg) 
           }
           break;
       }
+    } else if (ch == '\t') {
+      puts("    ");
     } else {
       print_char_attr(ch, fg, bg);
       ++length;

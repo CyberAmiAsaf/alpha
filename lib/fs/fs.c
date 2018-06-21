@@ -72,12 +72,41 @@ void ls() {
   struct INODE inodes[MAX_INODES] = {0};
   hd_read(1, INODE_SECTORS, inodes);
 
+  struct INODE t = inodes[0];
+  printf("%s\n", t.name);
+
   for (int i = 1; i < MAX_INODES; i++) {
-    struct INODE t = inodes[i];
-    if (t.name[0] != '\0') {
+    t = inodes[i];
+    if (t.name[0] != '\0' && t.num == i) {
       printf("%s\n", t.name);
     }
   }
+}
+
+struct INODE find_inode_by_name(char *name) {
+  struct INODE inodes[MAX_INODES] = {0};
+  struct INODE dummy = {0};
+  dummy.num = -1;
+
+  if (strncmp(name, "/", 1) == 0) {
+    return iget(0);
+  }
+
+  hd_read(1, INODE_SECTORS, inodes);
+
+  for (int i = 1; i < MAX_INODES; i++) {
+    struct INODE t = inodes[i];
+    if (strncmp(t.name, name, MAX_NAME_LEN)) {
+      return t;
+    }
+  }
+
+  return dummy;
+}
+
+bool inode_exists(char *name) {
+  struct INODE i = find_inode_by_name(name);
+  return i.num != -1;
 }
 
 void mkdir(char *foldername) {

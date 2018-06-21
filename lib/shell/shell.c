@@ -29,21 +29,41 @@ void handle_echo(int argc, char argv[32][64]) {
 void handle_touch(int argc, char argv[32][64]) {
   char *path;
 
-  if (argc != 2 || strlen(argv[1]) > 11 || strcmp(argv[1], "--help") == 0) {
-    printf("usage:\n\ttouch <file_name>\n\t\tlen(file_name) <= 10\n");
+  if (argc != 2 || strlen(argv[1]) >= MAX_NAME_LEN || strcmp(argv[1], "--help") == 0) {
+    printf("usage:\n\ttouch <file_name>\n\t\tlen(file_name) < %d\n", MAX_NAME_LEN);
     return;
   }
 
   path = argv[1];
 
-  // struct INODE_NUM file = findFile(path);
-
-  if (true) {
+  if (true || !inode_exists(path)) {
     touch(path);
     printf("file \"%s\" has been created succesfully\n", path);
   } else {
     printf("path \"%s\" already exists :(\n", path);
   }
+}
+
+void handle_rm(int argc, char argv[32][64]) {
+  char *path = argv[1];
+  struct INODE i;
+
+  if (argc != 2 || strlen(path) >= MAX_NAME_LEN || strncmp(path, "--help", 6) == 0) {
+    printf("usage:\n\trm <file_name>\n\t\tlen(file_name) < %d\n", MAX_NAME_LEN);
+    return;
+  }
+
+  if (false && !inode_exists(path)) {
+    printf("path \"%s\" doesn't exist :(\n", path);
+  } else {
+     i = find_inode_by_name(path);
+    free_inode(i.num);
+    printf("file \"%s\" has been removed\n", path);
+  }
+}
+
+void handle_ls(int argc, char argv[32][64]) {
+  ls();
 }
 
 int execute_command(char *command_line) {
@@ -79,10 +99,14 @@ int execute_command(char *command_line) {
   if (strlen(argv[0]) == 0) {
   } else if (strcmp(argv[0], "reboot") == 0) {
     reboot();
-  } else if (strcmp(argv[0], "echo") == 0) {
-    handle_echo(argc, argv);
   } else if (strcmp(argv[0], "touch") == 0) {
     handle_touch(argc, argv);
+  } else if (strcmp(argv[0], "echo") == 0) {
+    handle_echo(argc, argv);
+  } else if (strcmp(argv[0], "ls") == 0) {
+    handle_ls(argc, argv);
+  } else if (strcmp(argv[0], "rm") == 0) {
+    handle_rm(argc, argv);
   } else if (strcmp(argv[0], "clear") == 0) {
     clear_screen();
   } else {

@@ -20,7 +20,7 @@ struct INODE {
 };
 
 #define INODE_BIT_BLKS          1
-#define INODE_SECTORS           8
+#define INODE_SECTORS           1
 #define INODES_PER_BLK          (512/sizeof(struct INODE))
 #define INODE_FIRST_SECTOR      1
 #define MAX_INODES              (INODE_SECTORS * 512 / sizeof(struct INODE))
@@ -33,5 +33,10 @@ void init_alpha_fs();
 // high-levle funcs
 void touch(char *filename);
 void mkdir(char *foldername);
+
+void ls();
+struct INODE find_inode_by_name(char *name);
+bool inode_exists(char *name);
+
 
 #endif
