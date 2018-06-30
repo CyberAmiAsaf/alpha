@@ -1,0 +1,90 @@
+#+TITLE: ALPHAOS
+#+OPTIONS: toc:nil
+
+* Overview
+  Order of execution:
+
+  1. BIOS
+  2. BOOTLOADER
+  3. KERNEL
+  4. COMMANDS
+* BIOS
+  - Basic Input/Output System
+  - Code is inside the Motherboard's chip
+  - Runs in 16-bit Real Mode
+  - Verifies magic number in the bootable HDD's first sector
+  - Loads first sector to 0x00000000 in memory
+  - Jump to first command
+* BOOTLOADER
+  - The first sector in the HDD
+  - Written in 16-bit and 32-bit assembly
+  - Moves from 16-bit real mode to 32-bit protected mode
+  - Loads up the kernel image from disk to memory 0x00001000
+  - Jumps to kernel's kmain() function
+** GDT Table
+   :PROPERTIES:
+   :reveal_background: https://wiki.osdev.org/images/f/f3/GDT_Entry.png
+   :reveal_background_trans: slide
+   :END:
+* KERNEL
+  The main module of the OS
+** IRQs
+   Kernel sets up IRQ (interrupt request) handlers for any hardware signals which interrupt CPU execution (keyboard, timer, etc.)
+** Drivers
+   | Name         | Description                      |
+   |--------------+----------------------------------|
+   | KEYBOARD     | Detect key-presses               |
+   | CMOS         | Timer                            |
+   | VGA          | Print ASCII characters to screen |
+   | HD           | Interact with main hard-drive    |
+** Libraries
+   | File     | Description                                          |
+   |----------+------------------------------------------------------|
+   | fs       | Interact with file-system                            |
+   | memory   | Memory functions, dynamic memory allocation (bitmap) |
+   | string   | String functions, string manipulation                |
+   | integers | Integer functions                                    |
+   | print    | Print strings, string format                         |
+** FS INODES TABLE
+   File system descriptor table consists of many INODEs, which each is a file representation
+*** INODE Example
+   | Name       | Size | Description                                  |
+   |------------+------+----------------------------------------------|
+   | type       |    4 | item type (file/dir)                         |
+   | size       |    4 | item's content size                          |
+   | blocks     |    8 | array of block pointers to sectors in the HD |
+   | num        |    4 | item index in table                          |
+   | father_num |    4 | item's parent index                          |
+   | name       |    8 | item's name                                  |
+   NOTE: Most attributes aren't in use currently, as no commands require their use
+** Load Sequence
+   1. Clear screen
+   2. Init CMOS: get initial time values
+   3. Install ISR: make sure different CPU IRQs are answered (e.g. div. by 0)
+   4. Install IRQs: install IRQ handlers for keyboard & CMOS
+   5. Show statusbar
+   6. Verify HD
+   7. Verify FS
+   8. Wait for system password unlock (if pass exists)
+   9. Execute user commands
+* COMMANDS
+  Shell handler parses command and its arguments and calls to the correct command handler
+** List of commands
+*** Part A.
+   | Command  | Description                 |
+   |----------+-----------------------------|
+   | calc     | calculates 2 operands       |
+   | touch    | create file                 |
+   | rm       | remove file                 |
+   | write    | write text to file          |
+   | cat      | output file                 |
+   | date     | print out time and date     |
+*** Part B.
+   | Command  | Description                 |
+   |----------+-----------------------------|
+   | echo     | output to stdout text       |
+   | reboot   | reboot system               |
+   | ls       | display all files in dir    |
+   | clear    | clear screen                |
+   | password | set new password            |
+   | unlock   | unlock system with password |

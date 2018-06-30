@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>ALPHAOS</title>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="file:///home/titan/.emacs.d/reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="file:///home/titan/.emacs.d/reveal.js/css/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'file:///home/titan/.emacs.d/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">ALPHAOS</h1><p class="date">Created: 2018-07-01 Sun 02:19</p>
+</section>
+
+<section>
+<section id="slide-org2d942c0">
+<h2 id="org2d942c0"><span class="section-number-2">1</span> Overview</h2>
+<p>
+Order of execution:
+</p>
+
+<ol>
+<li>BIOS</li>
+<li>BOOTLOADER</li>
+<li>KERNEL</li>
+<li>COMMANDS</li>
+
+</ol>
+</section>
+</section>
+<section>
+<section id="slide-orgd8bf679">
+<h2 id="orgd8bf679"><span class="section-number-2">2</span> BIOS</h2>
+<ul>
+<li>Basic Input/Output System</li>
+<li>Code is inside the Motherboard's chip</li>
+<li>Runs in 16-bit Real Mode</li>
+<li>Verifies magic number in the bootable HDD's first sector</li>
+<li>Loads first sector to 0x00000000 in memory</li>
+<li>Jump to first command</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org799431a">
+<h2 id="org799431a"><span class="section-number-2">3</span> BOOTLOADER</h2>
+<ul>
+<li>The first sector in the HDD</li>
+<li>Written in 16-bit and 32-bit assembly</li>
+<li>Moves from 16-bit real mode to 32-bit protected mode</li>
+<li>Loads up the kernel image from disk to memory 0x00001000</li>
+<li>Jumps to kernel's kmain() function</li>
+
+</ul>
+</section>
+<section id="slide-org4976269" data-background="https://wiki.osdev.org/images/f/f3/GDT_Entry.png" data-background-transition="slide">
+<h3 id="org4976269"><span class="section-number-3">3.1</span> GDT Table</h3>
+</section>
+</section>
+<section>
+<section id="slide-orgfe20f3e">
+<h2 id="orgfe20f3e"><span class="section-number-2">4</span> KERNEL</h2>
+<p>
+The main module of the OS
+</p>
+</section>
+<section id="slide-org015cc37">
+<h3 id="org015cc37"><span class="section-number-3">4.1</span> IRQs</h3>
+<p>
+Kernel sets up IRQ (interrupt request) handlers for any hardware signals which interrupt CPU execution (keyboard, timer, etc.)
+</p>
+</section>
+<section id="slide-org0fa993d">
+<h3 id="org0fa993d"><span class="section-number-3">4.2</span> Drivers</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Name</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">KEYBOARD</td>
+<td class="org-left">Detect key-presses</td>
+</tr>
+
+<tr>
+<td class="org-left">CMOS</td>
+<td class="org-left">Timer</td>
+</tr>
+
+<tr>
+<td class="org-left">VGA</td>
+<td class="org-left">Print ASCII characters to screen</td>
+</tr>
+
+<tr>
+<td class="org-left">HD</td>
+<td class="org-left">Interact with main hard-drive</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="slide-org81baa66">
+<h3 id="org81baa66"><span class="section-number-3">4.3</span> Libraries</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">File</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">fs</td>
+<td class="org-left">Interact with file-system</td>
+</tr>
+
+<tr>
+<td class="org-left">memory</td>
+<td class="org-left">Memory functions, dynamic memory allocation (bitmap)</td>
+</tr>
+
+<tr>
+<td class="org-left">string</td>
+<td class="org-left">String functions, string manipulation</td>
+</tr>
+
+<tr>
+<td class="org-left">integers</td>
+<td class="org-left">Integer functions</td>
+</tr>
+
+<tr>
+<td class="org-left">print</td>
+<td class="org-left">Print strings, string format</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="slide-org35dbbcd">
+<h3 id="org35dbbcd"><span class="section-number-3">4.4</span> FS INODES TABLE</h3>
+<p>
+File system descriptor table consists of many INODEs, which each is a file representation
+</p>
+</section>
+<section id="slide-org5255935">
+<h4 id="org5255935"><span class="section-number-4">4.4.1</span> INODE Example</h4>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Name</th>
+<th scope="col" class="org-right">Size</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">type</td>
+<td class="org-right">4</td>
+<td class="org-left">item type (file/dir)</td>
+</tr>
+
+<tr>
+<td class="org-left">size</td>
+<td class="org-right">4</td>
+<td class="org-left">item's content size</td>
+</tr>
+
+<tr>
+<td class="org-left">blocks</td>
+<td class="org-right">8</td>
+<td class="org-left">array of block pointers to sectors in the HD</td>
+</tr>
+
+<tr>
+<td class="org-left">num</td>
+<td class="org-right">4</td>
+<td class="org-left">item index in table</td>
+</tr>
+
+<tr>
+<td class="org-left">father<sub>num</sub></td>
+<td class="org-right">4</td>
+<td class="org-left">item's parent index</td>
+</tr>
+
+<tr>
+<td class="org-left">name</td>
+<td class="org-right">8</td>
+<td class="org-left">item's name</td>
+</tr>
+</tbody>
+</table>
+<p>
+NOTE: Most attributes aren't in use currently, as no commands require their use
+</p>
+</section>
+<section id="slide-org106a3be">
+<h3 id="org106a3be"><span class="section-number-3">4.5</span> Load Sequence</h3>
+<ol>
+<li>Clear screen</li>
+<li>Init CMOS: get initial time values</li>
+<li>Install ISR: make sure different CPU IRQs are answered (e.g. div. by 0)</li>
+<li>Install IRQs: install IRQ handlers for keyboard &amp; CMOS</li>
+<li>Show statusbar</li>
+<li>Verify HD</li>
+<li>Verify FS</li>
+<li>Wait for system password unlock (if pass exists)</li>
+<li>Execute user commands</li>
+
+</ol>
+</section>
+</section>
+<section>
+<section id="slide-orga2e4c88">
+<h2 id="orga2e4c88"><span class="section-number-2">5</span> COMMANDS</h2>
+<p>
+Shell handler parses command and its arguments and calls to the correct command handler
+</p>
+</section>
+<section id="slide-org9b8db4d">
+<h3 id="org9b8db4d"><span class="section-number-3">5.1</span> List of commands</h3>
+<div class="outline-text-3" id="text-5-1">
+</div>
+</section>
+<section id="slide-orgd722d93">
+<h4 id="orgd722d93"><span class="section-number-4">5.1.1</span> Part A.</h4>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Command</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">calc</td>
+<td class="org-left">calculates 2 operands</td>
+</tr>
+
+<tr>
+<td class="org-left">touch</td>
+<td class="org-left">create file</td>
+</tr>
+
+<tr>
+<td class="org-left">rm</td>
+<td class="org-left">remove file</td>
+</tr>
+
+<tr>
+<td class="org-left">write</td>
+<td class="org-left">write text to file</td>
+</tr>
+
+<tr>
+<td class="org-left">cat</td>
+<td class="org-left">output file</td>
+</tr>
+
+<tr>
+<td class="org-left">date</td>
+<td class="org-left">print out time and date</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="slide-orgf82c366">
+<h4 id="orgf82c366"><span class="section-number-4">5.1.2</span> Part B.</h4>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Command</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">echo</td>
+<td class="org-left">output to stdout text</td>
+</tr>
+
+<tr>
+<td class="org-left">reboot</td>
+<td class="org-left">reboot system</td>
+</tr>
+
+<tr>
+<td class="org-left">ls</td>
+<td class="org-left">display all files in dir</td>
+</tr>
+
+<tr>
+<td class="org-left">clear</td>
+<td class="org-left">clear screen</td>
+</tr>
+
+<tr>
+<td class="org-left">password</td>
+<td class="org-left">set new password</td>
+</tr>
+
+<tr>
+<td class="org-left">unlock</td>
+<td class="org-left">unlock system with password</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</div>
+</div>
+<script src="file:///home/titan/.emacs.d/reveal.js/lib/js/head.min.js"></script>
+<script src="file:///home/titan/.emacs.d/reveal.js/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'file:///home/titan/.emacs.d/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'file:///home/titan/.emacs.d/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'file:///home/titan/.emacs.d/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'file:///home/titan/.emacs.d/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'file:///home/titan/.emacs.d/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>
