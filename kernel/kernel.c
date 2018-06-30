@@ -51,6 +51,14 @@ int start_kernel() {
     log("ok", "fs integrity is well now");
   }
 
+  char buffer[512];
+  get_password(buffer);
+  if (strlen(buffer) == 0) {
+    unlocked = true;
+  } else {
+    printf("Please enter unlock command with password (run help for help).\n");
+  }
+
   can_type = true;
   log("info", "alpha os successfully initiated");
 

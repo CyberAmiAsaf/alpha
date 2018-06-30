@@ -31,8 +31,9 @@ int atoi(register char *str) {
     ++str;
   }
 
-  while ((digit = *str - '0') > 9) {
+  while (*str && (digit = *str - '0') < 9) {
     result = (10 * result) + digit;
+    str++;
   }
 
   if (is_negative) {
@@ -109,7 +110,15 @@ char *to_lowercase(char *str) {
 }
 
 int strcmp(char *s1, char *s2) {
-  while (*s1 && *s1++ == *s2++);
+  while (*s1) {
+    if (*s1 != *s2) {
+      return *s2 - *s1;
+    }
+
+    ++s1;
+    ++s2;
+  }
+
   return *s2 - *s1;
 }
 

@@ -91,7 +91,6 @@ void init_pages(unsigned int size) {
 }
 
 char* malloc(unsigned int n_bytes) {
-  printf("p-> %d\n", heap_pointer);
   char *latest = (char *) BASE_HEAP + heap_pointer;
   heap_pointer += n_bytes + 1;
 

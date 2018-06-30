@@ -35,8 +35,13 @@ void touch(char *filename);
 void mkdir(char *foldername);
 
 void ls();
-struct INODE find_inode_by_name(char *name);
+struct INODE *find_inode_by_name(char *name);
 bool inode_exists(char *name);
 
+void file_write(struct INODE *i, char *buffer);
+void file_read(struct INODE *i, char *buffer);
+
+void save_password(char *buffer);
+void get_password(char *buffer);
 
 #endif

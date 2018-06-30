@@ -9,7 +9,7 @@
 #define UNUSED(x) (void)(x)
 
 // memory
-#define BASE_HEAP (0x2000)
+#define BASE_HEAP (0x400)
 #define pages_size (1<<30)
 #define len_curve 16
 

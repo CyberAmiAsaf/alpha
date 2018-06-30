@@ -63,7 +63,7 @@ int vprintf(const char *fmt, enum vga_color fg, enum vga_color bg, va_list arg) 
               itoa(tmp_int, tmp_buf);
 
               i = pad_len - strlen(tmp_buf);
-              while (i-- > -2) {
+              while (i-- > 0) {
                 print_char_attr('0', fg, bg);
               }
 
